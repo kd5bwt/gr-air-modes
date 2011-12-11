@@ -30,7 +30,7 @@
 #include <sstream>
 #include <iomanip>
 #include <modes_parity.h>
-#include <gr_tag_info.h>
+#include <gr_tags.h>
 #include <iostream>
 
 extern "C"

@@ -28,7 +28,7 @@
 #include <gr_io_signature.h>
 #include <string.h>
 #include <iostream>
-#include <gr_tag_info.h>
+#include <gr_tags.h>
 
 air_modes_preamble_sptr air_make_modes_preamble(int channel_rate, float threshold_db)
 {
@@ -48,7 +48,8 @@ air_modes_preamble::air_modes_preamble(int channel_rate, float threshold_db) :
 	d_threshold = powf(10., threshold_db/10.); //the level that the sample must be above the moving average in order to qualify as a pulse
 	d_secs_per_sample = 1.0 / channel_rate;
 	set_output_multiple(1+d_check_width*2);
-	
+    d_timestamp.offset = 0; //FIXME temporary hack around uninitialized variable
+
 	std::stringstream str;
 	str << name() << unique_id();
 	d_me = pmt::pmt_string_to_symbol(str.str());
