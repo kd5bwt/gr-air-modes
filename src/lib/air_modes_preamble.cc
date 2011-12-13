@@ -48,8 +48,7 @@ air_modes_preamble::air_modes_preamble(int channel_rate, float threshold_db) :
 	d_threshold = powf(10., threshold_db/10.); //the level that the sample must be above the moving average in order to qualify as a pulse
 	d_secs_per_sample = 1.0 / channel_rate;
 	set_output_multiple(1+d_check_width*2);
-    d_timestamp.offset = 0; //FIXME temporary hack around uninitialized variable
-
+	
 	std::stringstream str;
 	str << name() << unique_id();
 	d_me = pmt::pmt_string_to_symbol(str.str());
@@ -84,7 +83,7 @@ static double tag_to_timestamp(gr_tag_t tstamp, uint64_t abs_sample_cnt, double 
 	uint64_t ts_sample, last_whole_stamp;
 	double last_frac_stamp;
 
-	if(pmt::pmt_symbol_to_string(tstamp.key) != "timestamp") return 0;
+	if(tstamp.key == NULL || pmt::pmt_symbol_to_string(tstamp.key) != "timestamp") return 0;
 
 	last_whole_stamp = pmt::pmt_to_uint64(pmt::pmt_tuple_ref(tstamp.value, 0));
 	last_frac_stamp = pmt::pmt_to_double(pmt::pmt_tuple_ref(tstamp.value, 1));
